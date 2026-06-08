@@ -17,6 +17,7 @@ Menú de opciones:
   - [ ] Promedio de población
   - [ ] Promedio de superficie
   - [ ] Cantidad de países por continente
+  - [ ] requirements.txt
 Validaciones
 • Controlar errores de formato en el CSV.
 • Evitar fallos al ingresar filtros inválidos o búsquedas sin resultados.
