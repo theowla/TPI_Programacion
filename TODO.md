@@ -1,7 +1,7 @@
 # REQUERIMIENTOS TÉCNICOS
 
 Menú de opciones:
-- [ ] Agregar un país con todos los datos necesarios para almacenarse (No se permiten campos vacíos).
+- [x] Agregar un país con todos los datos necesarios para almacenarse (No se permiten campos vacíos).
 - [ ] Actualizar los datos de Población y Superficie de un País.
 - [ ] Buscar un país por nombre (coincidencia parcial o exacta).
 - [ ] Filtrar países por:
