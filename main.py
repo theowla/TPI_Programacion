@@ -11,3 +11,4 @@ def cargar_paises():
         return list(csv.DictReader(archivo,columnas))
 
 datos = cargar_paises()
+mostrar_datos(datos)
