@@ -57,8 +57,21 @@ def actualizar_pais():
             print(e)
 
 
-#actualizar_pais()
-#
+def mostrar_ordenado(modo: str, descendente: bool = True):
+    ordenado = []
+    match(modo):
+        case 'n':
+            ordenado = sorted(datos[1:], key=lambda x: x["nombre"].lower(),reverse=descendente)
+        case 'p':
+            ordenado = sorted(datos[1:], key=lambda x: int(x["poblacion"]),reverse=descendente)
+        case 's':
+            ordenado = sorted(datos[1:], key=lambda x: int(x["superficie"]),reverse=descendente)
 
-agregar_entrada()
+    ordenado.insert(0,{"nombre":"nombre", "poblacion":"poblacion", "superficie":"superficie","continente":"continente"})
+    mostrar_datos(ordenado)
+
+#actualizar_pais()
+mostrar_ordenado("s",False)
+
+#agregar_entrada()
 #mostrar_datos(datos)
