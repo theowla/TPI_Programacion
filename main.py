@@ -70,6 +70,39 @@ def mostrar_ordenado(modo: str, descendente: bool = True):
     ordenado.insert(0,{"nombre":"nombre", "poblacion":"poblacion", "superficie":"superficie","continente":"continente"})
     mostrar_datos(ordenado)
 
+def filtrar_pais():
+    opcion = input("opcion de filtrado (continente, rango_poblacion, rango_superficie): ")
+    if opcion == "continente":
+        continentes = ["asia", "américa", "europa", "africa"]
+        continente = input("continente: ").lower().strip()
+        if continente in continentes:
+            filtrado = []
+            for item in datos:
+                if item["continente"].lower().strip() == continente:
+                    filtrado.append(item)
+
+            mostrar_datos(filtrado)
+        else:
+            print("este continente no existe.")
+    elif opcion == "rango_poblacion":
+        cant_1, cant_2 = input("rango de poblacion (max min): ").split()
+        filtrado = []
+        for item in datos:
+            if item["poblacion"] <= cant_1 and item["poblacion"] >= cant_2:
+                filtrado.append(item)
+
+        mostrar_datos(filtrado)
+    elif opcion == "rango_superficie":
+        cant_1, cant_2 = input("rango de superficie (max min): ").split()
+        filtrado = []
+        for item in datos:
+            if item["superficie"] <= cant_1 and item["superficie"] >= cant_2:
+                filtrado.append(item)
+
+        mostrar_datos(filtrado)
+    else:
+        print("opcion invalida")
+
 #actualizar_pais()
 mostrar_ordenado("s",False)
 
