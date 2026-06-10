@@ -14,11 +14,11 @@ Menú de opciones:
   - [x] Nombre
   - [x] Población
   - [x] Superficie (ascendente o descendente)
-- [ ] Mostrar estadísticas:
-  - [ ] País con mayor y menor población
-  - [ ] Promedio de población
-  - [ ] Promedio de superficie
-  - [ ] Cantidad de países por continente
+- [x] Mostrar estadísticas:
+  - [x] País con mayor y menor población
+  - [x] Promedio de población
+  - [x] Promedio de superficie
+  - [x] Cantidad de países por continente
 - [ ] requirements.txt
 Validaciones
 • Controlar errores de formato en el CSV.
