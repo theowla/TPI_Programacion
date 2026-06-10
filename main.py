@@ -26,30 +26,6 @@ def buscar_pais(busqueda: str, parcial: bool = True) -> dict | None:
     else:
         return next((item for item in datos if busqueda == item["nombre"].lower()), None)
 
-def estadisticas():
-    ordenado = []
-    ordenado = sorted(datos[1:], key=lambda x: int(x["poblacion"]))
-
-    print(f"Menor población: {ordenado[0]['nombre']}\nMayor población: {ordenado[-1]['nombre']}")
-
-    conteo_continentes = {}
-    poblacion = 0
-    superficie = 0
-
-    for item in datos:
-        poblacion += int(item["poblacion"])
-        superficie += int(item["superficie"])
-        continente = item["continente"]
-        conteo_continentes[continente] = conteo_continentes.get(continente, 0) + 1
-
-    promedio_poblacion = poblacion / len(datos)
-    promedio_superficie = superficie / len(datos)
-    print(f"Promedio de población: {promedio_poblacion:.0f}")
-    print(f"Promedio de superficie: {promedio_superficie:.0f}")
-    for item in conteo_continentes:
-        print(f"{item} = {conteo_continentes[item]}")
-
-
 # -.-.-.-.-. ACCIONES DEL MENÚ .-.-.-.-.-
 
 def agregar_entrada():
@@ -149,6 +125,28 @@ def mostrar_ordenado():
 
     ordenado.insert(0,{"nombre":"nombre", "poblacion":"poblacion", "superficie":"superficie","continente":"continente"})
     mostrar_datos(ordenado)
+
+def estadisticas():
+    ordenado = []
+    ordenado = sorted(datos[1:], key=lambda x: int(x["poblacion"]))
+    print(f"Menor población: {ordenado[0]['nombre']}\nMayor población: {ordenado[-1]['nombre']}")
+
+    conteo_continentes = {}
+    poblacion = 0
+    superficie = 0
+
+    for item in datos:
+        poblacion += int(item["poblacion"])
+        superficie += int(item["superficie"])
+        continente = item["continente"]
+        conteo_continentes[continente] = conteo_continentes.get(continente, 0) + 1
+
+    promedio_poblacion = poblacion / len(datos)
+    promedio_superficie = superficie / len(datos)
+    print(f"Promedio de población: {promedio_poblacion:.0f}")
+    print(f"Promedio de superficie: {promedio_superficie:.0f}")
+    for item in conteo_continentes:
+        print(f"{item} = {conteo_continentes[item]}")
 
 #
 def main():
