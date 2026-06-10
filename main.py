@@ -26,19 +26,6 @@ def buscar_pais(busqueda: str, parcial: bool = True) -> dict | None:
     else:
         return next((item for item in datos if busqueda == item["nombre"].lower()), None)
 
-def mostrar_ordenado(modo: str, descendente: bool = True):
-    ordenado = []
-    match(modo):
-        case 'n':
-            ordenado = sorted(datos[1:], key=lambda x: x["nombre"].lower(),reverse=descendente)
-        case 'p':
-            ordenado = sorted(datos[1:], key=lambda x: int(x["poblacion"]),reverse=descendente)
-        case 's':
-            ordenado = sorted(datos[1:], key=lambda x: int(x["superficie"]),reverse=descendente)
-
-    ordenado.insert(0,{"nombre":"nombre", "poblacion":"poblacion", "superficie":"superficie","continente":"continente"})
-    mostrar_datos(ordenado)
-
 def estadisticas():
     ordenado = []
     ordenado = sorted(datos[1:], key=lambda x: int(x["poblacion"]))
@@ -142,6 +129,27 @@ def filtrar_paises():
     except ValueError as e:
         print(f"{e}")
 
+def mostrar_ordenado():
+
+    print("Elija la opción de orden (n = Nombre, p = Población, s = Superficie)")
+    modo_orden = input("> ").strip().lower()
+    print("Modo de Visualización (a = ascendente, d = desendente)")
+    modo_visualizacion = input("> ").strip().lower()
+    descendente = False if modo_visualizacion == 'a' else True
+    ordenado = []
+    match(modo_orden):
+        case 'n':
+            ordenado = sorted(datos[1:], key=lambda x: x["nombre"].lower(),reverse=descendente)
+        case 'p':
+            ordenado = sorted(datos[1:], key=lambda x: int(x["poblacion"]),reverse=descendente)
+        case 's':
+            ordenado = sorted(datos[1:], key=lambda x: int(x["superficie"]),reverse=descendente)
+        case _:
+            print("Error: esa opción no existe.")
+
+    ordenado.insert(0,{"nombre":"nombre", "poblacion":"poblacion", "superficie":"superficie","continente":"continente"})
+    mostrar_datos(ordenado)
+
 #
 def main():
     while True:
@@ -170,7 +178,7 @@ def main():
             case '4':
                 filtrar_paises()
             case '5':
-                pass
+                mostrar_ordenado()
             case '6':
                 pass
             case _:
