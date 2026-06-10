@@ -2,26 +2,25 @@ import csv
 from tabulate import tabulate
 
 # -.-.-.-.-. HELPERS .-.-.-.-.-
-columnas = ('nombre','poblacion','superficie','continente')
+COLUMNAS = ('nombre','poblacion','superficie','continente')
 
 def mostrar_datos(datos: list[dict]):
     print(tabulate(datos,tablefmt='simple_outline'))
 
 def cargar_dataset():
     with open('datos/dataset.csv', mode='r', encoding='utf-8') as archivo:
-        return list(csv.DictReader(archivo,columnas))
+        return list(csv.DictReader(archivo,COLUMNAS))
 
 datos = cargar_dataset()
 
 def guardar_cambios():
     with open('datos/dataset.csv', mode='w', encoding='utf-8') as archivo:
-        writer = csv.DictWriter(archivo,columnas)
+        writer = csv.DictWriter(archivo,COLUMNAS)
         writer.writerows(datos)
 
 def buscar_pais(busqueda: str) -> dict | None:
     busqueda = busqueda.lower().strip()
     return next((item for item in datos if busqueda in item["nombre"].lower()), None)
-
 
 def mostrar_ordenado(modo: str, descendente: bool = True):
     ordenado = []
@@ -119,7 +118,6 @@ def agregar_entrada():
     except ValueError as e:
         print(f"Error: {e}")
 
-
 def actualizar_pais():
     pais = buscar_pais(input("Pais a modificar > "))
     if pais is not None:
@@ -158,7 +156,11 @@ def main():
             case '2':
                 actualizar_pais()
             case '3':
-                pass
+                busqueda = buscar_pais(input("País a buscar > "))
+                if busqueda is not None:
+                    print(f"\n{tabulate([busqueda],headers='keys')}\n")
+                else:
+                    print("Error: ese país no existe en la base de datos.")
             case '4':
                 pass
             case '5':
