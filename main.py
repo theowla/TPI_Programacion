@@ -18,24 +18,10 @@ def guardar_cambios():
         writer = csv.DictWriter(archivo,columnas)
         writer.writerows(datos)
 
-def agregar_entrada():
-    try:
-        print("Ingresar datos separados por espacio (nombre poblacion superficie continente)")
-        nombres, poblacion, superficie, continente = input("> ").lower().split()
-
-        if not nombres.isalpha() or not continente.isalpha():
-            raise ValueError("Debe ser un nombre y continente valido")
-        elif not poblacion.isdigit() or not superficie.isdigit():
-            raise ValueError("La poblacion y superficie deben ser numero enteros")
-        else:
-            datos.append({"nombre":nombres, "poblacion":int(poblacion), "superficie":int(superficie),"continente":continente})
-            guardar_cambios()
-    except ValueError as e:
-        print(f"Error: {e}")
-
 def buscar_pais(busqueda: str) -> dict | None:
     busqueda = busqueda.lower().strip()
     return next((item for item in datos if busqueda in item["nombre"].lower()), None)
+
 
 def actualizar_pais():
     pais = buscar_pais(input("Pais a buscar > "))
@@ -126,11 +112,34 @@ def estadisticas():
 
 # -.-.-.-.-. ACCIONES DEL MENÚ .-.-.-.-.-
 
-agregar_entrada()
+def agregar_entrada():
+    try:
 
+        print("Ingresar que se solicitan a continuación:")
+        #nombre, poblacion, superficie, continente = input("> ").lower().split()
+        nombre = input("Nombre > ").lower().strip().replace(" ", "")
+        poblacion = input("Población > ").lower().strip()
+        superficie = input("Superficie en km² > ").lower().strip()
+        continente = input("Continente > ").lower().strip()
+
+        if buscar_pais(nombre) is not None:
+            raise ValueError("Ese país ya existe en la base de datos")
+        if not nombre.isalpha() or not continente.isalpha():
+            raise ValueError("Debe ser un nombre y continente valido")
+        elif not poblacion.isdigit() or not superficie.isdigit():
+            raise ValueError("La poblacion y superficie deben ser numero enteros")
+        else:
+            datos.append({"nombre":nombre, "poblacion":int(poblacion), "superficie":int(superficie),"continente":continente})
+            guardar_cambios()
+            print("Entrada agregada con éxito")
+    except ValueError as e:
+        print(f"Error: {e}")
+
+
+#
 def main():
     while True:
-        print("""---MENÚ---
+        print("""\t---MENÚ---
         1) Agregar país
         2) Actualizar datos de país
         3) Buscar un país
@@ -156,3 +165,6 @@ def main():
                 pass
             case _:
                 pass
+
+
+main()
