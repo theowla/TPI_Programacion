@@ -1,6 +1,7 @@
 import csv
 from tabulate import tabulate
 
+# -.-.-.-.-. HELPERS .-.-.-.-.-
 columnas = ('nombre','poblacion','superficie','continente')
 
 def mostrar_datos(datos: list[dict]):
@@ -19,27 +20,18 @@ def guardar_cambios():
 
 def agregar_entrada():
     try:
-        nombres, poblacion, superficie, continente = input("Ingresar datos (nombre poblacion superficie continente): ").lower().split()
+        print("Ingresar datos separados por espacio (nombre poblacion superficie continente)")
+        nombres, poblacion, superficie, continente = input("> ").lower().split()
 
-        if nombres.isalpha() and continente.isalpha():
-            datos.append({"nombre":nombres, "poblacion":int(poblacion), "superficie":int(superficie),"continente":continente})
-            print(datos)
-        else:
+        if not nombres.isalpha() or not continente.isalpha():
             raise ValueError("Debe ser un nombre y continente valido")
-        if poblacion.isdigit() and superficie.isdigit():
-            print("a")
-        else:
+        elif not poblacion.isdigit() or not superficie.isdigit():
             raise ValueError("La poblacion y superficie deben ser numero enteros")
+        else:
+            datos.append({"nombre":nombres, "poblacion":int(poblacion), "superficie":int(superficie),"continente":continente})
+            guardar_cambios()
     except ValueError as e:
         print(f"Error: {e}")
-    finally:
-        guardar_cambios()
-
-#def buscar_pais(busqueda) -> None | dict:
-#    for item in datos:
-#        if item["nombre"].lower().strip() == busqueda.lower().strip():
-#            return item
-#    return None
 
 def buscar_pais(busqueda: str) -> dict | None:
     busqueda = busqueda.lower().strip()
@@ -59,7 +51,7 @@ def actualizar_pais():
                 raise ValueError("Solo se admiten números.")
         except ValueError as e:
             print(e)
-            
+
 def mostrar_ordenado(modo: str, descendente: bool = True):
     ordenado = []
     match(modo):
@@ -73,7 +65,7 @@ def mostrar_ordenado(modo: str, descendente: bool = True):
     ordenado.insert(0,{"nombre":"nombre", "poblacion":"poblacion", "superficie":"superficie","continente":"continente"})
     mostrar_datos(ordenado)
 
-def filtrar_pais():
+def filtrar_paises():
     opcion = input("opcion de filtrado (continente, rango_poblacion, rango_superficie): ")
     if opcion == "continente":
         continentes = ["asia", "américa", "europa", "africa"]
@@ -131,3 +123,36 @@ def estadisticas():
     for item in conteo_continentes:
         print(f"{item} = {conteo_continentes[item]}")
 
+
+# -.-.-.-.-. ACCIONES DEL MENÚ .-.-.-.-.-
+
+agregar_entrada()
+
+def main():
+    while True:
+        print("""---MENÚ---
+        1) Agregar país
+        2) Actualizar datos de país
+        3) Buscar un país
+        4) Filtrar países
+        5) Mostrar países ordenados
+        6) Ver estadísticas
+        """)
+
+        accion = input("Acción a realizar > ")
+
+        match(accion):
+            case '1':
+                agregar_entrada()
+            case '2':
+                pass
+            case '3':
+                pass
+            case '4':
+                pass
+            case '5':
+                pass
+            case '6':
+                pass
+            case _:
+                pass
