@@ -18,9 +18,12 @@ def guardar_cambios():
         writer = csv.DictWriter(archivo,COLUMNAS)
         writer.writerows(datos)
 
-def buscar_pais(busqueda: str) -> dict | None:
+def buscar_pais(busqueda: str, parcial: bool = True) -> dict | None:
     busqueda = busqueda.lower().strip()
-    return next((item for item in datos if busqueda in item["nombre"].lower()), None)
+    if parcial:
+        return next((item for item in datos if busqueda in item["nombre"].lower()), None)
+    else:
+        return next((item for item in datos if busqueda == item["nombre"].lower()), None)
 
 def mostrar_ordenado(modo: str, descendente: bool = True):
     ordenado = []
@@ -34,39 +37,6 @@ def mostrar_ordenado(modo: str, descendente: bool = True):
 
     ordenado.insert(0,{"nombre":"nombre", "poblacion":"poblacion", "superficie":"superficie","continente":"continente"})
     mostrar_datos(ordenado)
-
-def filtrar_paises():
-    opcion = input("opcion de filtrado (continente, rango_poblacion, rango_superficie): ")
-    if opcion == "continente":
-        continentes = ["asia", "américa", "europa", "africa"]
-        continente = input("continente: ").lower().strip()
-        if continente in continentes:
-            filtrado = []
-            for item in datos:
-                if item["continente"].lower().strip() == continente:
-                    filtrado.append(item)
-
-            mostrar_datos(filtrado)
-        else:
-            print("este continente no existe.")
-    elif opcion == "rango_poblacion":
-        cant_1, cant_2 = input("rango de poblacion (max min): ").split()
-        filtrado = []
-        for item in datos:
-            if item["poblacion"] <= cant_1 and item["poblacion"] >= cant_2:
-                filtrado.append(item)
-
-        mostrar_datos(filtrado)
-    elif opcion == "rango_superficie":
-        cant_1, cant_2 = input("rango de superficie (max min): ").split()
-        filtrado = []
-        for item in datos:
-            if item["superficie"] <= cant_1 and item["superficie"] >= cant_2:
-                filtrado.append(item)
-
-        mostrar_datos(filtrado)
-    else:
-        print("opcion invalida")
 
 def estadisticas():
     ordenado = []
@@ -105,7 +75,7 @@ def agregar_entrada():
         superficie = input("Superficie en km² > ").lower().strip()
         continente = input("Continente > ").lower().strip()
 
-        if buscar_pais(nombre) is not None:
+        if buscar_pais(nombre, False) is not None:
             raise ValueError("Ese país ya existe en la base de datos")
         if not nombre.isalpha() or not continente.isalpha():
             raise ValueError("Debe ser un nombre y continente valido")
@@ -135,6 +105,45 @@ def actualizar_pais():
             print(e)
     else:
         print("Error: ese país no existe en la base de datos. Pruebe agregandolo.")
+
+def filtrar_paises():
+    print("Elija la opción de filtrado (c = Continente, p = Rango de población, s = Rango de superficie:")
+    opcion = input("> ").strip().lower()
+
+    try:
+        if opcion == "c" or opcion == "continente":
+            continentes = ["asia", "américa", "europa", "africa"]
+            continente = input("Continente > ").lower().strip()
+            if continente in continentes:
+                filtrado = []
+                for item in datos:
+                    if item["continente"].lower().strip() == continente:
+                        filtrado.append(item)
+
+                mostrar_datos(filtrado)
+            else:
+                print("Error: ese continente no existe.")
+
+        elif opcion == "p" or opcion == "poblacion":
+            cant_1, cant_2 = input("Ingrese rango separado por espacios (max min) > ").split()
+            filtrado = []
+            for item in datos:
+                if int(cant_1) >= int(item["poblacion"]) >= int(cant_2):
+                    filtrado.append(item)
+            mostrar_datos(filtrado)
+
+        elif opcion == "s" or opcion == "superficie":
+            cant_1, cant_2 = input("rango de superficie (max min): ").split()
+            filtrado = []
+            for item in datos:
+                if int(cant_1) >= int(item["superficie"]) >= int(cant_2):
+                    filtrado.append(item)
+
+            mostrar_datos(filtrado)
+        else:
+            print("Error: opcion inválida.")
+    except ValueError as e:
+        print(f"{e}")
 
 #
 def main():
