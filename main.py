@@ -23,21 +23,6 @@ def buscar_pais(busqueda: str) -> dict | None:
     return next((item for item in datos if busqueda in item["nombre"].lower()), None)
 
 
-def actualizar_pais():
-    pais = buscar_pais(input("Pais a buscar > "))
-    if pais is not None:
-        nombre, poblacion, superficie, continente = pais.values()
-
-        try:
-            nueva_poblacion, nueva_superficie= input("Ingresar datos (poblacion superficie): ").lower().split()
-            if nueva_poblacion.isdigit() and nueva_superficie.isdigit():
-                pais.update({"nombre":nombre,"poblacion":int(nueva_poblacion),"superficie":int(nueva_superficie),"continente":continente})
-                guardar_cambios()
-            else:
-                raise ValueError("Solo se admiten números.")
-        except ValueError as e:
-            print(e)
-
 def mostrar_ordenado(modo: str, descendente: bool = True):
     ordenado = []
     match(modo):
@@ -134,6 +119,25 @@ def agregar_entrada():
     except ValueError as e:
         print(f"Error: {e}")
 
+
+def actualizar_pais():
+    pais = buscar_pais(input("Pais a modificar > "))
+    if pais is not None:
+        nombre, poblacion, superficie, continente = pais.values()
+        try:
+            print("Ingrese los valores a modificar:")
+            nueva_poblacion = input("Población > ").strip()
+            nueva_superficie = input("Superficie > ").strip()
+            if nueva_poblacion.isdigit() and nueva_superficie.isdigit():
+                pais.update({"nombre":nombre,"poblacion":int(nueva_poblacion),"superficie":int(nueva_superficie),"continente":continente})
+                guardar_cambios()
+            else:
+                raise ValueError("Error: Solo se admiten números.")
+        except ValueError as e:
+            print(e)
+    else:
+        print("Error: ese país no existe en la base de datos. Pruebe agregandolo.")
+
 #
 def main():
     while True:
@@ -152,7 +156,7 @@ def main():
             case '1':
                 agregar_entrada()
             case '2':
-                pass
+                actualizar_pais()
             case '3':
                 pass
             case '4':
