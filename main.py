@@ -107,7 +107,7 @@ def actualizar_pais():
         print("Error: ese país no existe en la base de datos. Pruebe agregandolo.")
 
 def filtrar_paises():
-    print("Elija la opción de filtrado (c = Continente, p = Rango de población, s = Rango de superficie:")
+    print("Elija la opción de filtrado (c = Continente, p = Rango de población, s = Rango de superficie)")
     opcion = input("> ").strip().lower()
 
     try:
@@ -125,7 +125,7 @@ def filtrar_paises():
                 print("Error: ese continente no existe.")
 
         elif opcion == "p" or opcion == "poblacion":
-            cant_1, cant_2 = input("Ingrese rango separado por espacios (max min) > ").split()
+            cant_1, cant_2 = input("Ingrese rango separado por espacios (min max) > ").split()
             filtrado = []
             for item in datos:
                 if int(cant_1) >= int(item["poblacion"]) >= int(cant_2):
@@ -133,7 +133,7 @@ def filtrar_paises():
             mostrar_datos(filtrado)
 
         elif opcion == "s" or opcion == "superficie":
-            cant_1, cant_2 = input("rango de superficie (max min): ").split()
+            cant_1, cant_2 = input("rango de superficie (min max): ").split()
             filtrado = []
             for item in datos:
                 if int(cant_1) >= int(item["superficie"]) >= int(cant_2):
@@ -171,7 +171,7 @@ def main():
                 else:
                     print("Error: ese país no existe en la base de datos.")
             case '4':
-                pass
+                filtrar_paises()
             case '5':
                 pass
             case '6':
