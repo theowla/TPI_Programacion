@@ -3,9 +3,9 @@
 Menú de opciones:
 - [x] Agregar un país con todos los datos necesarios para almacenarse (No se permiten campos vacíos).
 - [x] Actualizar los datos de Población y Superficie de un País.
-- [ ] Buscar un país por nombre (coincidencia parcial o exacta).
+- [x] Buscar un país por nombre (coincidencia parcial o exacta).
   - [x] concidencia exacta
-  - [ ] concidencia parcial
+  - [x] concidencia parcial
 - [x] Filtrar países por:
   - [x] Continente
   - [x] Rango de población
@@ -19,7 +19,7 @@ Menú de opciones:
   - [x] Promedio de población
   - [x] Promedio de superficie
   - [x] Cantidad de países por continente
-- [ ] requirements.txt
+- [x] requirements.txt
 Validaciones
 • Controlar errores de formato en el CSV.
 • Evitar fallos al ingresar filtros inválidos o búsquedas sin resultados.

@@ -35,11 +35,15 @@ def agregar_entrada():
     finally:
         guardar_cambios()
 
-def buscar_pais(busqueda) -> None | dict:
-    for item in datos:
-        if item["nombre"].lower().strip() == busqueda.lower().strip():
-            return item
-    return None
+#def buscar_pais(busqueda) -> None | dict:
+#    for item in datos:
+#        if item["nombre"].lower().strip() == busqueda.lower().strip():
+#            return item
+#    return None
+
+def buscar_pais(busqueda: str) -> dict | None:
+    busqueda = busqueda.lower().strip()
+    return next((item for item in datos if busqueda in item["nombre"].lower()), None)
 
 def actualizar_pais():
     pais = buscar_pais(input("Pais a buscar > "))
@@ -55,8 +59,7 @@ def actualizar_pais():
                 raise ValueError("Solo se admiten números.")
         except ValueError as e:
             print(e)
-
-
+            
 def mostrar_ordenado(modo: str, descendente: bool = True):
     ordenado = []
     match(modo):
@@ -128,9 +131,3 @@ def estadisticas():
     for item in conteo_continentes:
         print(f"{item} = {conteo_continentes[item]}")
 
-estadisticas()
-#actualizar_pais()
-#mostrar_ordenado("s",False)
-
-#agregar_entrada()
-#mostrar_datos(datos)
