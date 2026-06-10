@@ -114,8 +114,7 @@ def estadisticas():
 
 def agregar_entrada():
     try:
-
-        print("Ingresar que se solicitan a continuación:")
+        print("Ingrese los datos que se solicitan a continuación:")
         #nombre, poblacion, superficie, continente = input("> ").lower().split()
         nombre = input("Nombre > ").lower().strip().replace(" ", "")
         poblacion = input("Población > ").lower().strip()
@@ -134,7 +133,6 @@ def agregar_entrada():
             print("Entrada agregada con éxito")
     except ValueError as e:
         print(f"Error: {e}")
-
 
 #
 def main():
