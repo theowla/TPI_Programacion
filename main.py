@@ -3,6 +3,7 @@ from tabulate import tabulate
 
 # -.-.-.-.-. HELPERS .-.-.-.-.-
 COLUMNAS = ('nombre','poblacion','superficie','continente')
+CONTINENTES = ("África","América","Asia","Europa","Oceanía")
 
 def mostrar_datos(datos: list[dict]):
     print(tabulate(datos,tablefmt='simple_outline',headers='keys'))
@@ -32,30 +33,37 @@ def agregar_entrada():
     try:
         print("Ingrese los datos que se solicitan a continuación:")
         #nombre, poblacion, superficie, continente = input("> ").lower().split()
-        nombre = input("Nombre > ").lower().strip().replace(" ", "")
-        poblacion = input("Población > ").lower().strip()
-        superficie = input("Superficie en km² > ").lower().strip()
-        continente = input("Continente > ").lower().strip()
+        nombre = input("Nombre > ").strip().replace(" ", "")
 
+        if not nombre.isalpha():
+            raise ValueError("Nombre de país inválido")
         if buscar_pais(nombre, False) is not None:
             raise ValueError("Ese país ya existe en la base de datos")
-        if not nombre.isalpha() or not continente.isalpha():
-            raise ValueError("Debe ser un nombre y continente valido")
-        elif not poblacion.isdigit() or not superficie.isdigit():
-            raise ValueError("La poblacion y superficie deben ser numero enteros")
-        else:
-            datos.append({"nombre":nombre, "poblacion":int(poblacion), "superficie":int(superficie),"continente":continente})
-            guardar_cambios()
-            print("Entrada agregada con éxito")
+
+        poblacion = input("Población > ").strip()
+        superficie = input("Superficie en km² > ").strip()
+
+        if not poblacion.isdigit() or not superficie.isdigit():
+            raise ValueError("La poblacion y superficie deben ser numeros enteros.")
+
+        print("Elija el continente:\n1-África\n2-América\n3-Asia\n4-Europa\n5-Oceanía ")
+        continente = input("Opción (1-5) > ").strip()
+        if not continente.isdigit() or int(continente) not in range(1,6):
+            raise ValueError("Opción de continente inválida")
+        continente = int(continente)
     except ValueError as e:
         print(f"Error: {e}")
+    else:
+        datos.append({"nombre":nombre.title(), "poblacion":int(poblacion), "superficie":int(superficie),"continente":CONTINENTES[continente-1]})
+        guardar_cambios()
+        print("Entrada agregada con éxito")
 
 def actualizar_pais():
     pais = buscar_pais(input("Pais a modificar > "))
     if pais is not None:
         nombre, poblacion, superficie, continente = pais.values()
         try:
-            print("Ingrese los valores a modificar:")
+            print(f"Ingrese los valores a modificar de {nombre}:")
             nueva_poblacion = input("Población > ").strip()
             nueva_superficie = input("Superficie > ").strip()
             if nueva_poblacion.isdigit() and nueva_superficie.isdigit():
@@ -74,7 +82,7 @@ def filtrar_paises():
 
     try:
         if opcion == "c" or opcion == "continente":
-            continentes = ["asia", "américa", "europa", "africa", "oceanía"]
+            continentes = ["asia", "américa", "europa", "africa", "oceanía"] # deshardcodear esto
             continente = input("Continente > ").lower().strip()
             if continente in continentes:
                 filtrado = []
