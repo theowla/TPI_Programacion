@@ -83,7 +83,7 @@ def actualizar_pais():
             if nueva_poblacion.isdigit() and nueva_superficie.isdigit():
                 # pais es una referencia al dict original en la lista global, esta línea lo modifica directamente
                 pais.update({"nombre":nombre,"poblacion":int(nueva_poblacion),"superficie":int(nueva_superficie),"continente":continente})
-                print("País agregado con éxito.")
+                print("País modificado con éxito.")
                 guardar_cambios()
             else:
                 raise ValueError("Error: Solo se admiten números.")
