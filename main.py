@@ -1,38 +1,51 @@
+# =====================================================
+# Programación 1 - UTN
+# Trabajo Práctico Integrador
+# Alumnos:
+#   Theo Wlasiczuk
+#   Facundo González
+# =====================================================
 import csv
 from tabulate import tabulate
 
 # -.-.-.-.-. HELPERS .-.-.-.-.-
+
+# Columnas del CSV en orden de escritura
 COLUMNAS = ('nombre','poblacion','superficie','continente')
+# Opciones válidas de continente (se usa para mostrar y para indexar)
 CONTINENTES = ("África","América","Asia","Europa","Oceanía")
 
 def mostrar_datos(datos: list[dict]):
     print(tabulate(datos,tablefmt='simple_outline',headers='keys'))
     input("Enter para continuar...")
 
-def cargar_dataset():
+def cargar_dataset() -> list[dict]:
     with open('datos/dataset.csv', mode='r', encoding='utf-8') as archivo:
         return list(csv.DictReader(archivo))
 
+# Variable global que almacena los datos en memoria durante la ejecución
 datos = cargar_dataset()
 
-def guardar_cambios():
+def guardar_cambios() -> None:
     with open('datos/dataset.csv', mode='w', encoding='utf-8') as archivo:
         writer = csv.DictWriter(archivo, COLUMNAS)
-        writer.writeheader()  # escribe el header
+        writer.writeheader()
         writer.writerows(datos)
 
 def buscar_pais(busqueda: str, parcial: bool = True) -> dict | None:
+    # parcial=True busca coincidencia parcial, parcial=False requiere nombre exacto
     busqueda = busqueda.lower().strip()
     if parcial:
         return next((item for item in datos if busqueda in item["nombre"].lower()), None)
     else:
         return next((item for item in datos if busqueda == item["nombre"].lower()), None)
 
+
 # -.-.-.-.-. ACCIONES DEL MENÚ .-.-.-.-.-
 def agregar_entrada():
     try:
         print("Ingrese los datos que se solicitan a continuación:")
-        #nombre, poblacion, superficie, continente = input("> ").lower().split()
+        # Se eliminan espacios para evitar duplicados como "Nueva Zelanda" vs "NuevaZelanda"
         nombre = input("Nombre > ").strip().replace(" ", "")
 
         if not nombre.isalpha():
@@ -54,6 +67,7 @@ def agregar_entrada():
     except ValueError as e:
         print(f"Error: {e}")
     else:
+        # El índice del continente elegido se mapea a su nombre en la tupla CONTINENTES
         datos.append({"nombre":nombre.title(), "poblacion":int(poblacion), "superficie":int(superficie),"continente":CONTINENTES[continente_elegido-1]})
         guardar_cambios()
         print("Entrada agregada con éxito")
@@ -67,6 +81,7 @@ def actualizar_pais():
             nueva_poblacion = input("Población > ").strip()
             nueva_superficie = input("Superficie > ").strip()
             if nueva_poblacion.isdigit() and nueva_superficie.isdigit():
+                # pais es una referencia al dict original en la lista global, esta línea lo modifica directamente
                 pais.update({"nombre":nombre,"poblacion":int(nueva_poblacion),"superficie":int(nueva_superficie),"continente":continente})
                 print("País agregado con éxito.")
                 guardar_cambios()
@@ -147,6 +162,7 @@ def estadisticas():
     lista_completa.append({"Estadística": "País con menor población", "Valor": ordenado[0]['nombre']})
     lista_completa.append({"Estadística": "País con mayor población", "Valor": ordenado[-1]['nombre']})
 
+    # Se usa un dict para contar países por continente: {continente: cantidad}
     conteo_continentes = {}
     contador_poblacion = 0
     contador_superficie = 0
@@ -155,6 +171,7 @@ def estadisticas():
         contador_poblacion += int(item["poblacion"])
         contador_superficie += int(item["superficie"])
         continente = item["continente"]
+        # get(continente, 0) evita KeyError si el continente no fue visto antes
         conteo_continentes[continente] = conteo_continentes.get(continente, 0) + 1
 
     promedio_poblacion = contador_poblacion / len(datos)
