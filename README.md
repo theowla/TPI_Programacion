@@ -32,8 +32,8 @@ pip install tabulate
 TPI-Programacion/
 ├── datos/
 │   └── dataset.csv
-├── main.py
-└── README.md
+├── README.md
+└── main.py
 ```
 
 ---
