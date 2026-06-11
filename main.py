@@ -5,7 +5,8 @@ from tabulate import tabulate
 COLUMNAS = ('nombre','poblacion','superficie','continente')
 
 def mostrar_datos(datos: list[dict]):
-    print(tabulate(datos,tablefmt='simple_outline'))
+    print(tabulate(datos,tablefmt='simple_outline',headers='keys'))
+    input("Enter para continuar...")
 
 def cargar_dataset():
     with open('datos/dataset.csv', mode='r', encoding='utf-8') as archivo:
@@ -27,7 +28,6 @@ def buscar_pais(busqueda: str, parcial: bool = True) -> dict | None:
         return next((item for item in datos if busqueda == item["nombre"].lower()), None)
 
 # -.-.-.-.-. ACCIONES DEL MENÚ .-.-.-.-.-
-
 def agregar_entrada():
     try:
         print("Ingrese los datos que se solicitan a continuación:")
@@ -106,7 +106,6 @@ def filtrar_paises():
         print(f"{e}")
 
 def mostrar_ordenado():
-
     print("Elija la opción de orden (n = Nombre, p = Población, s = Superficie)")
     modo_orden = input("> ").strip().lower()
     print("Modo de Visualización (a = ascendente, d = desendente)")
@@ -123,7 +122,6 @@ def mostrar_ordenado():
         case _:
             print("Error: esa opción no existe.")
 
-    ordenado.insert(0,{"nombre":"nombre", "poblacion":"poblacion", "superficie":"superficie","continente":"continente"})
     mostrar_datos(ordenado)
 
 def estadisticas():
@@ -148,10 +146,10 @@ def estadisticas():
     for item in conteo_continentes:
         print(f"{item} = {conteo_continentes[item]}")
 
-#
+# -.-.-.-.-. MENÚ .-.-.-.-.-
 def main():
     while True:
-        print("""\t---MENÚ---
+        print("""\n\t  ---MENÚ---
         1) Agregar país
         2) Actualizar datos de país
         3) Buscar un país
@@ -170,7 +168,8 @@ def main():
             case '3':
                 busqueda = buscar_pais(input("País a buscar > "))
                 if busqueda is not None:
-                    print(f"\n{tabulate([busqueda],headers='keys')}\n")
+                    mostrar_datos([busqueda])
+                    #print(f"\n{tabulate([busqueda],headers='keys')}\n")
                 else:
                     print("Error: ese país no existe en la base de datos.")
             case '4':
@@ -181,6 +180,4 @@ def main():
                 pass
             case _:
                 pass
-
-
 main()
