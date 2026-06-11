@@ -68,6 +68,7 @@ def actualizar_pais():
             nueva_superficie = input("Superficie > ").strip()
             if nueva_poblacion.isdigit() and nueva_superficie.isdigit():
                 pais.update({"nombre":nombre,"poblacion":int(nueva_poblacion),"superficie":int(nueva_superficie),"continente":continente})
+                print("País agregado con éxito.")
                 guardar_cambios()
             else:
                 raise ValueError("Error: Solo se admiten números.")
@@ -136,7 +137,8 @@ def mostrar_ordenado():
         case _:
             print("Error: esa opción no existe.")
 
-    mostrar_datos(ordenado)
+    if ordenado:
+        mostrar_datos(ordenado)
 
 def estadisticas():
     lista_completa = []
