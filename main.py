@@ -47,14 +47,14 @@ def agregar_entrada():
             raise ValueError("La poblacion y superficie deben ser numeros enteros.")
 
         print("Elija el continente:\n1-África\n2-América\n3-Asia\n4-Europa\n5-Oceanía ")
-        continente = input("Opción (1-5) > ").strip()
-        if not continente.isdigit() or int(continente) not in range(1,6):
+        continente_elegido = input("Opción (1-5) > ").strip()
+        if not continente_elegido.isdigit() or int(continente_elegido) not in range(1,6):
             raise ValueError("Opción de continente inválida")
-        continente = int(continente)
+        continente_elegido = int(continente_elegido)
     except ValueError as e:
         print(f"Error: {e}")
     else:
-        datos.append({"nombre":nombre.title(), "poblacion":int(poblacion), "superficie":int(superficie),"continente":CONTINENTES[continente-1]})
+        datos.append({"nombre":nombre.title(), "poblacion":int(poblacion), "superficie":int(superficie),"continente":CONTINENTES[continente_elegido-1]})
         guardar_cambios()
         print("Entrada agregada con éxito")
 
@@ -82,19 +82,23 @@ def filtrar_paises():
 
     try:
         if opcion == "c" or opcion == "continente":
-            continentes = ["asia", "américa", "europa", "africa", "oceanía"] # deshardcodear esto
-            continente = input("Continente > ").lower().strip()
-            if continente in continentes:
-                filtrado = []
-                for item in datos:
-                    if item["continente"].lower().strip() == continente:
-                        filtrado.append(item)
-                mostrar_datos(filtrado)
-            else:
-                print("Error: ese continente no existe.")
+
+            print("Elija el continente:\n1-África\n2-América\n3-Asia\n4-Europa\n5-Oceanía ")
+            continente_elegido = input("Opción (1-5) > ").strip()
+            if not continente_elegido.isdigit() or int(continente_elegido) not in range(1,6):
+                raise ValueError("Opción de continente inválida")
+            continente_elegido = int(continente_elegido)
+
+            filtrado = []
+            for item in datos:
+                if item["continente"] == CONTINENTES[continente_elegido-1]:
+                    filtrado.append(item)
+            mostrar_datos(filtrado)
 
         elif opcion == "p" or opcion == "poblacion":
             cant_1, cant_2 = input("Ingrese rango separado por espacios (min max) > ").split()
+            if not cant_1.isdigit() or not cant_2.isdigit():
+                raise ValueError("Error: El rango debe contener dos números enteros.")
             filtrado = []
             for item in datos:
                 if int(cant_1) <= int(item["poblacion"]) <= int(cant_2):
@@ -103,6 +107,8 @@ def filtrar_paises():
 
         elif opcion == "s" or opcion == "superficie":
             cant_1, cant_2 = input("Ingrese rango separado por espacios (min max): ").split()
+            if not cant_1.isdigit() or not cant_2.isdigit():
+                raise ValueError("Error: El rango debe contener dos números enteros.")
             filtrado = []
             for item in datos:
                 if int(cant_1) <= int(item["superficie"]) <= int(cant_2):
@@ -116,17 +122,17 @@ def filtrar_paises():
 def mostrar_ordenado():
     print("Elija la opción de orden (n = Nombre, p = Población, s = Superficie)")
     modo_orden = input("> ").strip().lower()
-    print("Modo de Visualización (a = ascendente, d = desendente)")
+    print("Modo de Visualización (a = ascendente, d = desendente <- default)")
     modo_visualizacion = input("> ").strip().lower()
     descendente = False if modo_visualizacion == 'a' else True
     ordenado = []
     match(modo_orden):
         case 'n':
-            ordenado = sorted(datos[1:], key=lambda x: x["nombre"].lower(),reverse=descendente)
+            ordenado = sorted(datos, key=lambda x: x["nombre"].lower(),reverse=descendente)
         case 'p':
-            ordenado = sorted(datos[1:], key=lambda x: int(x["poblacion"]),reverse=descendente)
+            ordenado = sorted(datos, key=lambda x: int(x["poblacion"]),reverse=descendente)
         case 's':
-            ordenado = sorted(datos[1:], key=lambda x: int(x["superficie"]),reverse=descendente)
+            ordenado = sorted(datos, key=lambda x: int(x["superficie"]),reverse=descendente)
         case _:
             print("Error: esa opción no existe.")
 
@@ -135,7 +141,7 @@ def mostrar_ordenado():
 def estadisticas():
     lista_completa = []
     ordenado = []
-    ordenado = sorted(datos[1:], key=lambda x: int(x["poblacion"]))
+    ordenado = sorted(datos, key=lambda x: int(x["poblacion"]))
     lista_completa.append({"Estadística": "País con menor población", "Valor": ordenado[0]['nombre']})
     lista_completa.append({"Estadística": "País con mayor población", "Valor": ordenado[-1]['nombre']})
 
