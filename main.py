@@ -125,26 +125,36 @@ def mostrar_ordenado():
     mostrar_datos(ordenado)
 
 def estadisticas():
+    lista_completa = []
     ordenado = []
     ordenado = sorted(datos[1:], key=lambda x: int(x["poblacion"]))
-    print(f"Menor población: {ordenado[0]['nombre']}\nMayor población: {ordenado[-1]['nombre']}")
+    #print(f"Menor población: {ordenado[0]['nombre']}\nMayor población: {ordenado[-1]['nombre']}")
+    lista_completa.append({"Estadística": "País con menor población", "Valor": ordenado[0]['nombre']})
+    lista_completa.append({"Estadística": "País con mayor población", "Valor": ordenado[-1]['nombre']})
 
     conteo_continentes = {}
-    poblacion = 0
-    superficie = 0
+    contador_poblacion = 0
+    contador_superficie = 0
 
     for item in datos:
-        poblacion += int(item["poblacion"])
-        superficie += int(item["superficie"])
+        contador_poblacion += int(item["poblacion"])
+        contador_superficie += int(item["superficie"])
         continente = item["continente"]
         conteo_continentes[continente] = conteo_continentes.get(continente, 0) + 1
 
-    promedio_poblacion = poblacion / len(datos)
-    promedio_superficie = superficie / len(datos)
-    print(f"Promedio de población: {promedio_poblacion:.0f}")
-    print(f"Promedio de superficie: {promedio_superficie:.0f}")
-    for item in conteo_continentes:
-        print(f"{item} = {conteo_continentes[item]}")
+    promedio_poblacion = contador_poblacion / len(datos)
+    promedio_superficie = contador_superficie / len(datos)
+    #print(f"Promedio de población: {promedio_poblacion:.0f}")
+    #print(f"Promedio de superficie: {promedio_superficie:.0f}")
+
+    lista_completa.append({"Estadística": "Promedio de Población", "Valor": f"{promedio_poblacion:.0f}"})
+    lista_completa.append({"Estadística": "Promedio de Superficie", "Valor": f"{promedio_superficie:.0f}"})
+
+    for k, v in conteo_continentes.items():
+        lista_completa.append({"Estadística": k, "Valor": v})
+
+    mostrar_datos(lista_completa)
+
 
 # -.-.-.-.-. MENÚ .-.-.-.-.-
 def main():
@@ -177,7 +187,7 @@ def main():
             case '5':
                 mostrar_ordenado()
             case '6':
-                pass
+                estadisticas()
             case _:
-                pass
+                print("Error: esa opción no existe.")
 main()
