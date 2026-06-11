@@ -128,7 +128,6 @@ def estadisticas():
     lista_completa = []
     ordenado = []
     ordenado = sorted(datos[1:], key=lambda x: int(x["poblacion"]))
-    #print(f"Menor población: {ordenado[0]['nombre']}\nMayor población: {ordenado[-1]['nombre']}")
     lista_completa.append({"Estadística": "País con menor población", "Valor": ordenado[0]['nombre']})
     lista_completa.append({"Estadística": "País con mayor población", "Valor": ordenado[-1]['nombre']})
 
@@ -144,8 +143,6 @@ def estadisticas():
 
     promedio_poblacion = contador_poblacion / len(datos)
     promedio_superficie = contador_superficie / len(datos)
-    #print(f"Promedio de población: {promedio_poblacion:.0f}")
-    #print(f"Promedio de superficie: {promedio_superficie:.0f}")
 
     lista_completa.append({"Estadística": "Promedio de Población", "Valor": f"{promedio_poblacion:.0f}"})
     lista_completa.append({"Estadística": "Promedio de Superficie", "Valor": f"{promedio_superficie:.0f}"})
