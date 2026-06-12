@@ -35,6 +35,8 @@ def guardar_cambios() -> None: #funcion para guardar los cambios en el archivo
 
 def buscar_pais(busqueda: str, parcial: bool = True) -> dict | None: 
     # parcial=True busca coincidencia parcial, parcial=False requiere nombre exacto
+    if not busqueda:
+        return
     busqueda = busqueda.lower().strip() #estandarizamos la entrada del usuario
     if parcial:
         return next((item for item in datos if busqueda in item["nombre"].lower()), None) #busqueda parcial (in)
@@ -113,23 +115,35 @@ def filtrar_paises():
             mostrar_datos(filtrado)
 
         elif opcion == "p" or opcion == "poblacion":
-            cant_1, cant_2 = input("Ingrese rango separado por espacios (min max) > ").split() #pedimos un rango y estandarizamos
+            try:
+                cant_1, cant_2 = input("Ingrese rango separado por espacios (min max) > ").split() #pedimos un rango y estandarizamos
+            except:
+                print("No hay suficientes datos")
+                return
             if not cant_1.isdigit() or not cant_2.isdigit(): #validamos
                 raise ValueError("Error: El rango debe contener dos números enteros.")
             filtrado = []
             for item in datos: #recorremos datos y verificamos que entre en el rango
                 if int(cant_1) <= int(item["poblacion"]) <= int(cant_2):
                     filtrado.append(item)
+            if not filtrado:
+                print("No hay paises que cumplan con esas caracteristicas.")
             mostrar_datos(filtrado)
 
         elif opcion == "s" or opcion == "superficie":
-            cant_1, cant_2 = input("Ingrese rango separado por espacios (min max): ").split() #pedimos un rango y estandarizamos
+            try:
+                cant_1, cant_2 = input("Ingrese rango separado por espacios (min max): ").split() #pedimos un rango y estandarizamos
+            except:
+                print("No hay suficientes datos")
+                return
             if not cant_1.isdigit() or not cant_2.isdigit(): #validamos
                 raise ValueError("Error: El rango debe contener dos números enteros.")
             filtrado = []
             for item in datos: #recorremos datos y verificamos que entre en el rango
                 if int(cant_1) <= int(item["superficie"]) <= int(cant_2):
                     filtrado.append(item)
+            if not filtrado:
+                print("No hay paises que cumplan con esas caracteristicas.")
             mostrar_datos(filtrado)
         else:
             print("Error: opcion inválida.")
@@ -198,6 +212,7 @@ def main():
         4) Filtrar países
         5) Mostrar países ordenados
         6) Ver estadísticas
+        7) salir del programa
         """)
 
         accion = input("Acción a realizar > ")
@@ -220,6 +235,8 @@ def main():
                 mostrar_ordenado()
             case '6':
                 estadisticas()
+            case '7':
+                return
             case _:
                 print("Error: esa opción no existe.")
 main()
