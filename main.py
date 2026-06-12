@@ -2,8 +2,8 @@
 # Programación 1 - UTN
 # Trabajo Práctico Integrador
 # Alumnos:
-#   Theo Wlasiczuk
-#   Facundo González
+#   Theo Wlasiczuk (Revision de codigo, funciones (1-3))
+#   Facundo González (Versionado de codigo, funciones (4-6))
 # =====================================================
 
 import csv #libreria para mejor manejo de archivos CSV
