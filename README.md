@@ -4,6 +4,9 @@ Sistema de gestión de datos de países desarrollado en Python. Permite agregar,
 
 ---
 
+## Link de video explicativo
+https://www.youtube.com/watch?v=U7EVM54hzIc&list=WL&index=1&t=9s
+
 ## Integrantes
 
 | Nombre |
